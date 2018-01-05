@@ -1,0 +1,23 @@
+.taxi-form {
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 10px 10px 61px -9px rgba(0, 0, 0, 0.4); }
+  .taxi-form__title {
+    margin: 0 0 10px 0; }
+  .taxi-form__input-wrapper {
+    display: flex; }
+  .taxi-form__buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px; }
+  .taxi-form__link {
+    font-size: 12px;
+    align-self: flex-end;
+    text-decoration: none;
+    color: #218bc3;
+    margin-top: 15px; }
+    .taxi-form__link:hover, .taxi-form__link:focus {
+      text-decoration: underline; }

@@ -1,0 +1,36 @@
+.taxi-form {
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  background-color: #fff;
+  padding: 30px;
+  // box-sizing: border-box;
+  box-shadow: 10px 10px 61px -9px rgba(0,0,0,0.4);
+
+  &__title {
+    margin: 0 0 10px 0;
+  }
+
+  &__input-wrapper {
+    display: flex;
+  }
+
+  &__buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  &__link {
+    font-size: 12px;
+    align-self: flex-end;
+    text-decoration: none;
+    color: #218bc3;
+    margin-top: 15px;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}

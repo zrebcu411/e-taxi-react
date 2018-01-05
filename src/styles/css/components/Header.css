@@ -1,0 +1,23 @@
+.header__logo-link {
+  color: #fff;
+  text-decoration: none; }
+
+.header__nav-list {
+  list-style: none;
+  padding: 0;
+  display: flex; }
+
+.header__nav-item {
+  padding: 0 5px; }
+
+.header__nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 9px 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 15px;
+  outline: 0; }
+  .header__nav-link:hover, .header__nav-link:focus {
+    background-color: #f9c862;
+    transition: background-color 0.15s ease-in-out; }

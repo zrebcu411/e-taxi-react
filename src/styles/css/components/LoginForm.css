@@ -1,0 +1,21 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 10px 10px 61px -9px rgba(0, 0, 0, 0.4); }
+  .login-form__title {
+    margin: 0 0 10px 0; }
+  .login-form__buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px; }
+  .login-form__forgot-password-link {
+    font-size: 12px;
+    align-self: flex-end;
+    text-decoration: none;
+    color: #218bc3;
+    margin-top: 15px; }
+    .login-form__forgot-password-link:hover, .login-form__forgot-password-link:focus {
+      text-decoration: underline; }
