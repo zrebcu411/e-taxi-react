@@ -19,9 +19,8 @@ const signUpError = errors => ({
 
 export const signUp = userData => (dispatch) => {
   dispatch(signUpRequest());
-  console.log('whodze');
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users/userRegister`, JSON.stringify(userData), {
+  return axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users/userRegister`, JSON.stringify(userData), {
     headers: {
       'Content-Type': 'application/json'
     }

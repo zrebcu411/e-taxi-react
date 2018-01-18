@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import RegisterFormSwitcher from '../components/RegisterFormSwitcher';
-import PassengerRegisterForm from '../components/PassengerRegisterForm';
+import SignUpFormSwitcher from '../components/SignUpFormSwitcher';
+import PassengerSignUpForm from '../components/PassengerSignUpForm';
 import '../../styles/css/containers/Register.css';
 
 const Register = ({ match }) =>
   (
     <div className="register-form-wrapper">
-      <Route exact path={match.url} component={RegisterFormSwitcher} />
-      <Route path={`${match.url}/passenger`} component={PassengerRegisterForm} />
+      <Route exact path={match.url} component={SignUpFormSwitcher} />
+      <Route path={`${match.url}/passenger`} component={PassengerSignUpForm} />
     </div>
   );
 

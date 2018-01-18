@@ -8,6 +8,7 @@ import store from '../store/configureStore';
 import Homepage from './Homepage';
 import Login from './Login';
 import Register from './Register';
+import SignUpConfirmationPage from './SignUpConfirmationPage';
 // import logo from '../../assets/logo.svg';
 // import '../../styles/css/App.css';
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route exact path="/" component={Homepage} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/confirmation" component={SignUpConfirmationPage} />
         </div>
       </MuiThemeProvider>
     </Router>

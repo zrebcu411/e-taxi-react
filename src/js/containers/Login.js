@@ -1,10 +1,10 @@
 import React from 'react';
-import LoginForm from '../components/LoginForm';
+import SignInForm from '../components/SignInForm';
 import '../../styles/css/containers/Login.css';
 
 const Login = () => (
   <div className="login-form-wrapper">
-    <LoginForm />
+    <SignInForm />
   </div>
 );
 
