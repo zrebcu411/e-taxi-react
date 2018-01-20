@@ -1,18 +1,32 @@
 import axios from 'axios';
-import btoa from 'btoa';
+import { setAxiosAuthorizationHeader } from '../helpers/authHelper';
+
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
+  user
+});
 
 export const signIn = credentials => (dispatch) => {
+  const { username, password } = credentials;
 
-  // test credentials
-  const body = `username=${encodeURIComponent('admin')}&password=${encodeURIComponent('pass')}&grant_type=password`;
+  const body = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+  const hashedCredentials = btoa(`${username}:${password}`);
 
-  return axios.post(`${process.env.REACT_APP_API_URL}/oauth/login`, body, {
+  return axios.post(`${process.env.REACT_APP_API_URL}/login`, body, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      // test oauth credentials
-      Authorization: `Basic ${btoa('eTaxiClientId:secret')}`
+      Authorization: `Basic ${hashedCredentials}`
     }
   })
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+    .then(() => {
+      localStorage.setItem('basicToken', hashedCredentials);
+      setAxiosAuthorizationHeader(hashedCredentials);
+      return axios.get(`${process.env.REACT_APP_API_URL}/api/v1/users/current`);
+    })
+    .then((res) => {
+      const user = res.data;
+      dispatch(setCurrentUser(user));
+    });
 };
+

@@ -10,7 +10,7 @@ import validateRequiredFields from '../helpers/formHelper';
 import '../../styles/css/common/taxi-form.css';
 
 const styles = {
-  loginFormButton: {
+  formButton: {
     marginTop: 20
   },
   formInputHalfLeft: {
@@ -51,6 +51,7 @@ class PassengerSignUpForm extends React.Component {
   }
 
   onSubmit(e) {
+    console.log(this);
     e.preventDefault();
     this.setState({ errors: {} });
 
@@ -168,7 +169,7 @@ class PassengerSignUpForm extends React.Component {
           />
         </div>
         <Button
-          className={this.classes.loginFormButton}
+          className={this.classes.formButton}
           raised
           color="primary"
           type="submit"

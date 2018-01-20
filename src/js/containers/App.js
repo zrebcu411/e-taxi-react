@@ -9,6 +9,10 @@ import Homepage from './Homepage';
 import Login from './Login';
 import Register from './Register';
 import SignUpConfirmationPage from './SignUpConfirmationPage';
+import DefaultLayout from './DefaultLayout';
+import PassengerDashboardPage from './PassengerDashboardPage';
+import DashboardPage from './DashboardPage';
+
 // import logo from '../../assets/logo.svg';
 // import '../../styles/css/App.css';
 
@@ -25,10 +29,12 @@ const App = () => (
     <Router>
       <MuiThemeProvider theme={theme}>
         <div>
-          <Route exact path="/" component={Homepage} />
+          <DefaultLayout exact path="/" component={Homepage} />
+          <DefaultLayout path="/passenger" component={PassengerDashboardPage} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/confirmation" component={SignUpConfirmationPage} />
+          <DashboardPage path="/dashboard" />
         </div>
       </MuiThemeProvider>
     </Router>

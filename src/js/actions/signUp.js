@@ -17,10 +17,13 @@ const signUpError = errors => ({
   errors
 });
 
-export const signUp = userData => (dispatch) => {
+export const signUp = (userData, userType = 'passenger') => (dispatch) => {
   dispatch(signUpRequest());
 
-  return axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users/userRegister`, JSON.stringify(userData), {
+  const endpoint = userType === 'driver' ? 'driverRegister' : 'userRegister';
+  console.log(JSON.stringify(userData));
+
+  return axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users/${endpoint}`, JSON.stringify(userData), {
     headers: {
       'Content-Type': 'application/json'
     }

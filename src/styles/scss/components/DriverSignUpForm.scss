@@ -1,0 +1,21 @@
+.driver-sign-up-form {
+  width: 700px;
+
+  &__inputs-wrapper {
+    display: flex;    
+  }
+
+  &__left {
+    padding-right: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &__right {
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { TextField, Button, withStyles } from 'material-ui';
+import { TextField, Button, withStyles, Snackbar } from 'material-ui';
 import { isEmpty } from 'lodash';
 import { signIn } from '../actions/signIn';
 import validateRequiredFields from '../helpers/formHelper';
@@ -44,9 +44,11 @@ class SignInForm extends React.Component {
     this.setState({ errors: {} });
 
     if (this.isValid()) {
-      console.log('valid');
       this.props.signIn(this.state.inputs)
-        .then(res => console.log('done'));
+        .then(() => {
+          this.props.history.push('/dashboard');
+        })
+        .catch(() => this.setState({ errors: { credentials: 'Wprowadzono niepoprawne dane logowania' } }));
       // this.props.signUp(this.state.inputs)
       //   .then((action) => {
       //     this.props.history.push('/confirmation', {
@@ -87,11 +89,11 @@ class SignInForm extends React.Component {
         <TextField
           id="username"
           name="username"
-          label="Nazwa użytkownika"
+          label="Nazwa użytkownika lub e-mail"
           margin="normal"
           fullWidth
           onChange={this.onChange}
-          error={Boolean(errors.username)}
+          error={!!errors.username || !!errors.credentials}
           helperText={errors.username}
         />
         <TextField
@@ -102,7 +104,7 @@ class SignInForm extends React.Component {
           type="password"
           fullWidth
           onChange={this.onChange}
-          error={Boolean(errors.password)}
+          error={!!errors.password || !!errors.credentials}
           helperText={errors.password}
         />
         <div className="login-form__buttons-wrapper">
@@ -120,6 +122,19 @@ class SignInForm extends React.Component {
           </Button>
           <a href="/" className="login-form__forgot-password-link">Nie pamiętasz hasła?</a>
         </div>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+          open={!!this.state.errors.credentials}
+          autoHideDuration={6000}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          message={<span id="message-id">{this.state.errors.credentials}</span>}
+        />
       </form>
     );
   }
