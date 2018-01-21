@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
-import { AppBar, Toolbar, Typography, Button, IconButton, MenuIcon } from '../vendor/material-ui';
+import { Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
+import { AppBar, Toolbar, Typography, IconButton, MenuIcon } from '../vendor/material-ui';
 import '../../styles/css/components/Header.css';
 
 const styles = {
@@ -10,11 +9,11 @@ const styles = {
     backgroundColor: '#FFD954'
   },
   header__logo: {
-    flex: 1,
+    flex: 1
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20,
+    marginRight: 20
   }
 };
 
@@ -43,10 +42,6 @@ const Header = (props) => {
       </Toolbar>
     </AppBar>
   );
-}
-
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Header);

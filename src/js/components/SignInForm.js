@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TextField, Button, withStyles, Snackbar } from 'material-ui';
@@ -141,9 +140,5 @@ class SignInForm extends React.Component {
 }
 
 SignInForm = connect(state => state, { signIn })(SignInForm);
-
-SignInForm.propTypes = {
-  classes: propTypes.shape.isRequired
-};
 
 export default withStyles(styles)(SignInForm);
