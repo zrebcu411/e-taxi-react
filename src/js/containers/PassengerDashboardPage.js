@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Stomp from 'stompjs';
+import store from '../store/configureStore';
 
 class PassengerDashboardPage extends Component {
   constructor() {
@@ -13,7 +14,8 @@ class PassengerDashboardPage extends Component {
     this.onConnect = this.onConnect.bind(this);
     this.onChange = this.onChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-    this.sendGlobal = this.sendGlobal.bind(this);
+    this.sendMessage2 = this.sendMessage2.bind(this);
+    this.sendMessage3 = this.sendMessage3.bind(this);
   }
 
   onConnect() {
@@ -21,18 +23,16 @@ class PassengerDashboardPage extends Component {
     this.ws.connect(
       {},
       () => {
-        console.log('succed');
         this.ws.subscribe('/topic/reply', (payload) => {
-          this.setState({ messages: [...this.state.messages, JSON.parse(payload.body).message] });
-          console.log(payload);
+          this.setState({ messages: [...this.state.messages, JSON.stringify(payload)] });
         });
 
         this.ws.subscribe('/user/queue/reply', (payload) => {
-          this.setState({ messages: [...this.state.messages, JSON.stringify(payload.body)] });
+          this.setState({ messages: [...this.state.messages, JSON.stringify(payload)] });
         });
 
         this.ws.subscribe('/user/queue/errors', (payload) => {
-          this.setState({ messages: [...this.state.messages, JSON.stringify(payload.body)] });
+          this.setState({ messages: [...this.state.messages, JSON.stringify(payload)] });
         });
 
         this.setState({ isConnected: true });
@@ -46,14 +46,26 @@ class PassengerDashboardPage extends Component {
   }
 
   sendMessage() {
-    this.ws.send('/message', {}, JSON.stringify({
-      name: this.state.reveiverUser,
+    this.ws.send('/taxi.message', {}, JSON.stringify({
+      name: `${this.state.receiverUser}`,
       message: `MESSAGE_TO: ${this.state.receiverUser}`
     }));
   }
 
-  sendGlobal() {
-    this.ws.send('/global', {}, JSON.stringify({ message: 'GLOBAL_MESSAGE' }));
+  sendMessage2() {
+    const { user } = store.getState();
+    this.ws.send('/taxi.activate', {}, JSON.stringify({
+      id: user.user.id,
+      socketSessionId: this.state.receiverUser
+    }));
+  }
+
+  sendMessage3() {
+    const { user } = store.getState();
+    this.ws.send('/taxi.deactivate', {}, JSON.stringify({
+      id: user.user.id,
+      socketSessionId: this.state.receiverUser
+    }));
   }
 
   render() {
@@ -75,8 +87,13 @@ class PassengerDashboardPage extends Component {
               Send to:
               <input type="text" id="receiverUser" name="receiverUser" onChange={this.onChange} />
             </label>
-            { this.state.receiverUser && <button onClick={this.sendMessage}>{`Send to ${this.state.receiverUser}`}</button>}
-            <button onClick={this.sendGlobal}>Send to global</button>
+            { this.state.receiverUser &&
+              <div>
+                <button onClick={this.sendMessage}>Send message</button>
+                <button onClick={this.sendMessage2}>Send activate</button>
+                <button onClick={this.sendMessage3}>Send deactivate</button>
+              </div>
+            }
           </div>}
       </div>
     );
