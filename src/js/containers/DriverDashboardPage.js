@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Stomp from 'stompjs';
 
-class PassengerDashboardPage extends Component {
+class DriverDashboardPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,16 +10,16 @@ class PassengerDashboardPage extends Component {
       receiverUser: '',
       isConnected: false,
       socketSessionId: '',
-      latitude: 50.063978,
-      longitude: 19.970156,
+      latitude: 50.063971,
+      longitude: 19.970151,
       userId: this.props.user.user.id
     };
 
     this.onConnect = this.onConnect.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.sendGetTaxiRequest = this.sendGetTaxiRequest.bind(this);
+    this.sendDeactivate = this.sendDeactivate.bind(this);
     this.sendActivate = this.sendActivate.bind(this);
-    this.sendMessage3 = this.sendMessage3.bind(this);
+    this.sendOrderConfirmation = this.sendOrderConfirmation.bind(this);
   }
 
   onConnect() {
@@ -31,8 +31,7 @@ class PassengerDashboardPage extends Component {
           this.setState({ messages: [...this.state.messages, JSON.stringify(payload)] });
         });
 
-        this.ws.subscribe('/user/queue/passenger', (payload) => {
-          console.log('dupa');
+        this.ws.subscribe('/user/queue/driver', (payload) => {
           this.setState({ messages: [...this.state.messages, JSON.stringify(payload)] });
         });
 
@@ -53,18 +52,6 @@ class PassengerDashboardPage extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  sendGetTaxiRequest() {
-    const { state } = this;
-
-    this.ws.send('/taxi.orderRequest', {}, JSON.stringify({
-      receiverId: state.receiverUser,
-      localization: {
-        latitude: state.latitude,
-        longitude: state.longitude
-      }
-    }));
-  }
-
   sendActivate() {
     this.ws.send('/taxi.activate', {}, JSON.stringify({
       id: this.state.userId,
@@ -74,12 +61,24 @@ class PassengerDashboardPage extends Component {
     }));
   }
 
-  sendMessage3() {
-    // const { user } = store.getState();
-    this.ws.send('/taxi.deactivate', {}, JSON.stringify({
-      // id: user.user.id,
-      socketSessionId: this.state.receiverUser
+  sendOrderConfirmation() {
+    this.ws.send('/taxi.orderConfirmation', {}, JSON.stringify({
+      receiverId: this.state.receiverUser,
+      localization: {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
+      }
     }));
+  }
+
+  sendDeactivate() {
+    this.ws.send('/taxi.deactivate', {}, JSON.stringify({
+      socketSessionId: this.state.socketSessionId,
+      id: this.state.userId
+    }));
+
+    this.ws.disconnect();
+    this.setState({ isConnected: false });
   }
 
   render() {
@@ -89,7 +88,7 @@ class PassengerDashboardPage extends Component {
 
     return (
       <div>
-        <h1>Passenger</h1>
+        <h1>Driver</h1>
         <ul>
           {messages}
         </ul>
@@ -111,7 +110,8 @@ class PassengerDashboardPage extends Component {
               <input type="text" id="receiverUser" name="receiverUser" onChange={this.onChange} />
             </label>
             <button onClick={this.sendActivate}>Activate</button>
-            <button onClick={this.sendGetTaxiRequest}>Get taxi</button>
+            <button onClick={this.sendOrderConfirmation}>Confirm</button>
+            <button onClick={this.sendDeactivate}>Deactivate</button>
           </div>}
       </div>
     );
@@ -122,12 +122,5 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps)(PassengerDashboardPage);
+export default connect(mapStateToProps)(DriverDashboardPage);
 
-// { this.state.receiverUser &&
-//   <div>
-//     <button onClick={this.sendMessage}>Send message</button>
-//     <button onClick={this.sendMessage2}>Send activate</button>
-//     <button onClick={this.sendMessage3}>Send deactivate</button>
-//   </div>
-// }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import PassengerDashboardPage from './PassengerDashboardPage';
+import DriverDashboardPage from './DriverDashboardPage';
 import { isAuthenticated, getUserRole } from '../helpers/authHelper';
 
 const DashboardPage = ({ component: Component, ...rest }) => (
@@ -11,13 +12,13 @@ const DashboardPage = ({ component: Component, ...rest }) => (
       if (isAuthenticated()) {
         return getUserRole() === 'DRIVER_USER' ? (
           <div>
-            <Header />
-            <span>Driver</span>
+            <Header {...matchProps} />
+            <DriverDashboardPage {...matchProps} />
           </div>
         ) : (
           <div>
-            <Header />
-            <PassengerDashboardPage />
+            <Header {...matchProps} />
+            <PassengerDashboardPage {...matchProps} />
           </div>
         );
       }

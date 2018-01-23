@@ -26,7 +26,14 @@ export const signIn = credentials => (dispatch) => {
     })
     .then((res) => {
       const user = res.data;
+      localStorage.setItem('user', JSON.stringify(user));
       dispatch(setCurrentUser(user));
     });
+};
+
+export const signOut = () => (dispatch) => {
+  localStorage.removeItem('basicToken');
+  setAxiosAuthorizationHeader(false);
+  dispatch(setCurrentUser({}));
 };
 

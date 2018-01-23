@@ -32,6 +32,6 @@ export const signIn = credentials => (dispatch) => {
 
 export const initializeUser = () => {
   return axios.get(`${process.env.REACT_APP_API_URL}/api/v1/users/current`)
-    .then(res => console.log(res));
+    .then(res => res.data);
 };
 

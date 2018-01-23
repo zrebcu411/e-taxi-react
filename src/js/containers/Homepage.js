@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 class Homepage extends React.Component {
   constructor() {
@@ -13,7 +13,6 @@ class Homepage extends React.Component {
     return (
       <div>
         <h1>Homepage</h1>
-        <Link to="/passenger">User after login</Link>
       </div>
     );
   }
