@@ -3,9 +3,12 @@ import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel, StepContent } from 'material-ui/Stepper';
 import Button from 'material-ui/Button';
+import { isEmpty } from 'lodash';
+import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import axios from 'axios';
+import loadingSpinner from '../../static/loading-spinner.gif';
 
 const styles = theme => ({
   root: {
@@ -79,6 +82,8 @@ class TaxiOrderStepper extends React.Component {
       case 2:
         this.props.sendGetTaxiRequest();
         this.setState({ activeStep: this.state.activeStep + 1 });
+        console.log('render Route', this.props.renderRoute);
+        this.props.renderRoute();
         break;
       default:
         break;
@@ -121,6 +126,7 @@ class TaxiOrderStepper extends React.Component {
                         Back
                       </Button>
                       <Button
+                        disabled={!this.props.isLocationSelected}
                         raised
                         color="primary"
                         onClick={this.handleNext}
@@ -134,13 +140,16 @@ class TaxiOrderStepper extends React.Component {
               </Step>
             ))}
         </Stepper>
-        {activeStep === steps.length && (
-          <Paper square elevation={0} className={classes.resetContainer}>
-            <Typography>All steps completed - you&quot;re finished</Typography>
-            <Button onClick={this.handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </Paper>
+        {activeStep === steps.length && this.props.isLoading && (
+          <div>
+            <img src={loadingSpinner} alt="Oczekiwanie na połączenie z klientem" />
+            <Typography>Oczekiwanie na akcpetację kierowcy...</Typography>
+          </div>
+        )}
+        {this.props.isAccepted && (
+          <div>
+            <Typography>Zamówienie zaakceptowane. Oczekuj na przyjaz kierowcy.</Typography>
+          </div>
         )}
       </div>
     );
@@ -151,4 +160,9 @@ class TaxiOrderStepper extends React.Component {
 //   classes: PropTypes.object,
 // };
 
-export default withStyles(styles)(TaxiOrderStepper);
+const mapStateToProps = state => ({
+  isLocationSelected: !isEmpty(state.map.passengerLocation),
+  isDriverSelected: !isEmpty(state.map.selectedDriver)
+});
+
+export default withStyles(styles)(connect(mapStateToProps)(TaxiOrderStepper));

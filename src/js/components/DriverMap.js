@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { selectDriverLocation } from '../actions/map';
 import taxiMarkerStandard from '../../static/taxi-marker.png';
 import taxiMarkerPremium from '../../static/taxi-marker-black.png';
+import passengerMarker from '../../static/user-marker.png';
 
 class PassengerMap extends Component {
   constructor(props) {
@@ -12,8 +13,7 @@ class PassengerMap extends Component {
       options: {
         draggingCursor: 'move',
         draggableCursor: 'default'
-      },
-      userLocation: {}
+      }
     };
 
     this.onUserLocationClick = this.onUserLocationClick.bind(this);
@@ -49,10 +49,12 @@ class PassengerMap extends Component {
           }}
           defaultIcon={this.props.user.user.serviceKind === 'STANDARD' ? taxiMarkerStandard : taxiMarkerPremium}
         />
-        <Marker position={{
-          lat: this.props.passengerLocation.latitude,
-          lng: this.props.passengerLocation.longitude
-        }}
+        <Marker
+          position={{
+            lat: this.props.passengerLocation.latitude,
+            lng: this.props.passengerLocation.longitude
+          }}
+          defaultIcon={passengerMarker}
         />
       </GoogleMap>
     );

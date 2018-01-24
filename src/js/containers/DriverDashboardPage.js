@@ -14,7 +14,8 @@ class DriverDashboardPage extends Component {
       isConnected: false,
       socketSessionId: '',
       activeActivationStep: 0,
-      isLoading: true
+      isLoading: true,
+      driverSocketSessionId: ''
     };
 
     this.onConnect = this.onConnect.bind(this);
@@ -40,9 +41,10 @@ class DriverDashboardPage extends Component {
         this.ws.subscribe('/user/queue/driver/confirmation', (payload) => {
           console.log('conf', payload);
           const location = JSON.parse(payload.body).localization;
+          const driverSocketId = JSON.parse(payload.body).passengerId;
+          console.log('IDDD', driverSocketId);
           this.props.selectPassengerLocation(location);
-          this.setState({ isLoading: false });
-          this.setState({ messages: [...this.state.messages, JSON.stringify(payload)] });
+          this.setState({ isLoading: false, driverSocketSessionId: driverSocketId });
         });
 
         this.ws.subscribe('/user/queue/errors', (payload) => {
@@ -74,8 +76,10 @@ class DriverDashboardPage extends Component {
 
   sendOrderConfirmation() {
     this.ws.send('/taxi.orderConfirmation', {}, JSON.stringify({
-      receiverId: this.state.receiverUser,
+      receiverId: this.state.driverSocketSessionId,
       localization: {
+        latitude: this.props.driverLocation.lat,
+        longitude: this.props.driverLocation.lng
       }
     }));
   }
@@ -119,6 +123,8 @@ class DriverDashboardPage extends Component {
             sendActivate={this.sendActivate}
             onConnect={this.onConnect}
             isLoading={this.state.isLoading}
+            driverSocketSessionId={this.state.driverSocketSessionId}
+            sendOrderConfirmation={this.sendOrderConfirmation}
           />
         </div>
       </div>

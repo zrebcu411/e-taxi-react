@@ -1,6 +1,8 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
+import { isEmpty } from 'lodash';
 import Stepper, { Step, StepLabel, StepContent } from 'material-ui/Stepper';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
@@ -46,8 +48,8 @@ class TaxiActivateStepper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeStep: 0
-      // isLoading: false
+      activeStep: 0,
+      isLocationSelected: false
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -108,6 +110,7 @@ class TaxiActivateStepper extends React.Component {
                         Back
                       </Button>
                       <Button
+                        disabled={this.props.isLocationSelected}
                         raised
                         color="primary"
                         onClick={this.handleNext}
@@ -127,6 +130,18 @@ class TaxiActivateStepper extends React.Component {
             <Typography>Oczekiwanie na połączenie z klientem...</Typography>
           </div>
         )}
+        {this.props.driverSocketSessionId && (
+          <div>
+            <Button
+              raised
+              color="primary"
+              onClick={this.props.sendOrderConfirmation}
+              className={classes.button}
+            >
+              Potwierdź zlecenie
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -136,4 +151,8 @@ class TaxiActivateStepper extends React.Component {
 //   classes: PropTypes.object,
 // };
 
-export default withStyles(styles)(TaxiActivateStepper);
+const mapStateToProps = state => ({
+  isLocationSelected: isEmpty(state.map.driverLocation)
+});
+
+export default withStyles(styles)(connect(mapStateToProps)(TaxiActivateStepper));
