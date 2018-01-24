@@ -1,6 +1,7 @@
 const initialState = {
   selectedDriver: {},
-  passengerLocation: {}
+  passengerLocation: {},
+  driverLocation: {}
 };
 
 export default (state = initialState, action) => {
@@ -11,10 +12,16 @@ export default (state = initialState, action) => {
         selectedDriver: action.driver
       };
     case 'SELECT_PASSENGER_LOCATION':
-      console.log(action.location);
+      console.log('TUUUUU', action.location);
       return {
         ...state,
         passengerLocation: action.location
+      };
+    case 'SELECT_DRIVER_LOCATION':
+      console.log(action.location);
+      return {
+        ...state,
+        driverLocation: action.location
       };
     default:
       return state;

@@ -36,13 +36,19 @@ class PassengerMap extends Component {
   render() {
     const { activeDrivers } = this.props;
 
-    const activeDriversMarkers = activeDrivers.map(driver =>
-      <ActiveDriverMarker
-        lat={driver.latitude}
-        lng={driver.longitude}
-        serviceKind={driver.serviceKind}
-        driver={driver}
-      />
+    const activeDriversMarkers = activeDrivers.map(driver => {
+      console.log(driver);
+      return (
+        <ActiveDriverMarker
+          lat={driver.latitude}
+          lng={driver.longitude}
+          serviceKind={driver.user.serviceKind}
+          driver={driver}
+        />
+
+
+      )
+    }
     );
 
     return (

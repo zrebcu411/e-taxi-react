@@ -9,3 +9,9 @@ export const selectPassengerLocation = location => ({
   type: SELECT_PASSENGER_LOCATION,
   location
 });
+
+export const SELECT_DRIVER_LOCATION = 'SELECT_DRIVER_LOCATION';
+export const selectDriverLocation = location => ({
+  type: SELECT_DRIVER_LOCATION,
+  location
+});

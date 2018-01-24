@@ -70,6 +70,7 @@ class PassengerDashboardPage extends Component {
   }
 
   sendGetTaxiRequest() {
+    console.log('AAAA', this.props.selectedDriver);
     console.log(this.props);
     this.ws.send('/taxi.orderRequest', {}, JSON.stringify({
       receiverId: this.props.selectedDriver.user.socketSessionId,
