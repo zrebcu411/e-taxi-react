@@ -1,0 +1,8 @@
+.passenger-dashboard {
+  display: flex;
+  height: 100%; }
+  .passenger-dashboard__map-wrapper {
+    flex: 7;
+    align-self: stretch; }
+  .passenger-dashboard__info {
+    flex: 4; }

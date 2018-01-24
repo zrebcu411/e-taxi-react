@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import Stomp from 'stompjs';
+import DriverMap from '../components/DriverMap';
+import '../../styles/css/components/DriverDashboardPage.css';
 
 class DriverDashboardPage extends Component {
   constructor(props) {
@@ -21,6 +24,11 @@ class DriverDashboardPage extends Component {
     this.sendActivate = this.sendActivate.bind(this);
     this.sendOrderConfirmation = this.sendOrderConfirmation.bind(this);
   }
+
+  // componentDidMount() {
+  //   axios.get(`${process.env.REACT_APP_API_URL}/api/v1/geotags/drivers`)
+  //     .then(res => console.log(res));
+  // }
 
   onConnect() {
     this.ws = Stomp.over(new WebSocket(`${process.env.REACT_APP_SOCKET_URL}/ws`));
@@ -87,32 +95,44 @@ class DriverDashboardPage extends Component {
     ));
 
     return (
-      <div>
-        <h1>Driver</h1>
-        <ul>
-          {messages}
-        </ul>
-        <div>
-          <button onClick={this.onConnect}>Connect</button><br /><br />
+      <div className="driver-dashboard">
+        <div className="driver-dashboard__map-wrapper">
+          <DriverMap
+            isMarkerShown
+            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+            loadingElement={<div style={{ height: '100%' }} />}
+            containerElement={<div style={{ height: '100%' }} />}
+            mapElement={<div style={{ height: '100%' }} />}
+          />
         </div>
-        { this.state.isConnected &&
+
+        <div className="driver-dashboard__info">
+          <h1>Driver</h1>
+          <ul>
+            {messages}
+          </ul>
           <div>
-            <label htmlFor="receiverUser">
-              Lat:
-              <input type="text" id="latitude" name="latitude" onChange={this.onChange} />
-            </label>
-            <label htmlFor="receiverUser">
-              Lang:
-              <input type="text" id="longitude" name="longitude" onChange={this.onChange} />
-            </label>
-            <label htmlFor="receiverUser">
-              Lang:
-              <input type="text" id="receiverUser" name="receiverUser" onChange={this.onChange} />
-            </label>
-            <button onClick={this.sendActivate}>Activate</button>
-            <button onClick={this.sendOrderConfirmation}>Confirm</button>
-            <button onClick={this.sendDeactivate}>Deactivate</button>
-          </div>}
+            <button onClick={this.onConnect}>Connect</button><br /><br />
+          </div>
+          { this.state.isConnected &&
+            <div>
+              <label htmlFor="receiverUser">
+                Lat:
+                <input type="text" id="latitude" name="latitude" onChange={this.onChange} />
+              </label>
+              <label htmlFor="receiverUser">
+                Lang:
+                <input type="text" id="longitude" name="longitude" onChange={this.onChange} />
+              </label>
+              <label htmlFor="receiverUser">
+                Lang:
+                <input type="text" id="receiverUser" name="receiverUser" onChange={this.onChange} />
+              </label>
+              <button onClick={this.sendActivate}>Activate</button>
+              <button onClick={this.sendOrderConfirmation}>Confirm</button>
+              <button onClick={this.sendDeactivate}>Deactivate</button>
+            </div>}
+        </div>
       </div>
     );
   }

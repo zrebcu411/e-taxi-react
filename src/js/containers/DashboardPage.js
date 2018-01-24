@@ -11,12 +11,12 @@ const DashboardPage = ({ component: Component, ...rest }) => (
     render={(matchProps) => {
       if (isAuthenticated()) {
         return getUserRole() === 'DRIVER_USER' ? (
-          <div>
+          <div className="dashboard">
             <Header {...matchProps} />
             <DriverDashboardPage {...matchProps} />
           </div>
         ) : (
-          <div>
+          <div className="dashboard">
             <Header {...matchProps} />
             <PassengerDashboardPage {...matchProps} />
           </div>

@@ -1,0 +1,19 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.driver-dashboard {
+  display: flex;
+  height: 100%;
+
+  &__map-wrapper {
+    flex: 7;
+    align-self: stretch;
+  }
+
+  &__info {
+    flex: 4;
+  }
+}
